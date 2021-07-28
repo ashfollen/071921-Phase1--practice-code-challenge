@@ -6,7 +6,10 @@ const dogInfoDiv = document.getElementById('dog-info');
 function getDogData() {
     fetch(dogUrl)
     .then(resp => resp.json())
-    .then((data) => addToDogBar(data))
+    .then(function (data) {
+        addToDogBar(data);
+        renderDogInfo(data);
+    })
 }         
     
 function addToDogBar(dogObj) {
@@ -19,16 +22,25 @@ function addToDogBar(dogObj) {
     }
 }
 
-// function renderDogInfo(dogUrl) {
-//     let img = document.createElement('img');
-//     img.src = dogUrl.image;
-//     let h2 = document.createElement('h2');
-//     h2.innerText = dogUrl.name
-//     let button = document.createElement('button')
-//         if (dogUrl.isGoodDog === 'true') {
-//             button.innerText = "Good Dog!"
-//         } else (button.innerText = "Bad Dog!")
-// }
+function renderDogInfo(dogObj) {
+    for (let dog of dogObj) {
+    const dogInfoContainer = document.createElement('div');
+    const img = document.createElement('img');
+    img.src = dog.image;
+        dogInfoContainer.append(img);
+    let h2 = document.createElement('h2');
+    h2.innerText = dog.name
+        dogInfoContainer.append(h2);
+    let button = document.createElement('button')
+        if (dog.isGoodDog === 'true') {
+            button.innerText = "Good Dog!"
+        } else (button.innerText = "Bad Dog!")
+        dogInfoContainer.append(button);
+    dogInfoDiv.append(dogInfoContainer)
+    }
+}
+
+
 
 function init() {
     getDogData();
